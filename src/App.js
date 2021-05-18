@@ -16,11 +16,16 @@ import {
 } from "react-router-dom";
 
 class App extends Component {
-  state = {};
+
+  state = {
+
+  };
+
+
 
   render() {
     return (
-      <div>
+      <div className="App">
         <Router>
           <Nav logged_in={this.state.logged_in}/>
           <Switch>
