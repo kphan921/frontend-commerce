@@ -4,36 +4,15 @@ import "semantic-ui-css/semantic.min.css";
 // import EditReviewForm from "../Components/EditReviewForm";
 
 class MyCart extends React.Component {
-  // state = {
-  //   comment: "",
-  //   movie_id: null,
-  //   reviews: [],
-  // };
-
-  // handleChange = (e) => {
-  //   this.setState({
-  //     [e.target.name]: e.target.value,
-  //   });
-  // };
-
-  // handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   console.log("hi");
-  // };
-
-  // componentDidMount() {
-  //   fetch("http://localhost:3000/reviews", {
-  //     method: "GET",
-  //     headers: {
-  //       'Content-Type':'application/json'
-  //     },
-  //     body: JSON.stringify({ user: {...this.state} })
-  //   })
-  //     .then((res) => res.json())
-  //     .then((data) => console.log(data));
-  // }
-
   render() {
+    if (this.props.items) {
+      return (
+        <div>
+          <h5>Cart is empty.</h5>
+        </div>
+      );
+    }
+    
     return (
       <div class="ui bulleted list">
         <h2>My Reviews</h2>

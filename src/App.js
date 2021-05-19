@@ -8,6 +8,8 @@ import Nav from "./Components/Nav";
 import Signup from "./Components/Signup";
 import MyReviews from "./Containers/MyCart";
 
+import { connect } from "react-redux";
+
 import {
   BrowserRouter as Router,
   Route,
@@ -15,19 +17,22 @@ import {
   Switch,
 } from "react-router-dom";
 
+const API = "http://localhost:3000/items";
+
 class App extends Component {
+  state = {};
 
-  state = {
-
-  };
-
-
+  componentDidMount() {
+    fetch(API)
+      .then((res) => res.json())
+      .then((items) => this.dispatch({ type: "GET_ITEMS", items }));
+  }
 
   render() {
     return (
       <div className="App">
         <Router>
-          <Nav logged_in={this.state.logged_in}/>
+          <Nav logged_in={this.state.logged_in} />
           <Switch>
             <Route
               exact
@@ -44,7 +49,7 @@ class App extends Component {
                   newReview={this.state.newReview}
                   addReview={this.addReview}
                   cancelReview={this.cancelReview}
-                  logged_in = {this.state.logged_in}
+                  logged_in={this.state.logged_in}
                 />
               )}
             />
@@ -79,7 +84,8 @@ class App extends Component {
             />
 
             <Route
-              exact path="/"
+              exact
+              path="/"
               // path="/login"
               component={() => <Login handleLogin={this.handleLogin} />}
             />
