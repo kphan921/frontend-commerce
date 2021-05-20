@@ -17,16 +17,26 @@ import {
   Switch,
 } from "react-router-dom";
 
-const API = "http://localhost:3000/items";
+const itemsAPI = "http://localhost:3000/items";
 
 class App extends Component {
-  state = {};
+  state = {
+    logged_in: false
+  };
 
   componentDidMount() {
-    fetch(API)
+    fetch(itemsAPI)
       .then((res) => res.json())
-      .then((items) => this.dispatch({ type: "GET_ITEMS", items }));
+      .then((items) => console.log(items));  //this.dispatch({ type: "GET_ITEMS", items })
   }
+
+
+  handleLogin = () => {
+    this.setState({ logged_in: true });
+  };
+
+
+
 
   render() {
     return (
@@ -36,7 +46,7 @@ class App extends Component {
           <Switch>
             <Route
               exact
-              path="/movies"
+              path="/items"
               component={() => (
                 <ItemsContainer
                   addNewReview={this.addNewReview}
@@ -99,7 +109,7 @@ class App extends Component {
               path="/logout"
               component={() => {
                 localStorage.clear();
-                this.setState({ logged_in: false, user_id: null });
+                this.setState({ logged_in: false });
                 return <Redirect to="/" />;
               }}
             />
@@ -110,4 +120,12 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = state => {
+  return {
+    ...state
+  }
+}
+
+
+
+export default connect(mapStateToProps)(App);

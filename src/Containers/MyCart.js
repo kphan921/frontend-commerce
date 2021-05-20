@@ -5,6 +5,7 @@ import "semantic-ui-css/semantic.min.css";
 
 class MyCart extends React.Component {
   render() {
+    
     if (this.props.items) {
       return (
         <div>
@@ -12,7 +13,7 @@ class MyCart extends React.Component {
         </div>
       );
     }
-    
+
     return (
       <div class="ui bulleted list">
         <h2>My Reviews</h2>

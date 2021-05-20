@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Form, Button, Segment } from "semantic-ui-react";
 import { withRouter } from "react-router";
+// import { connect } from "react-redux";
 
 class Login extends Component {
   state = {
@@ -15,19 +16,19 @@ class Login extends Component {
   };
 
   handleSubmit = () => {
-    fetch('http://localhost:3000/login',{
+    fetch('http://localhost:3000/auth',{
       method: 'POST',
       headers: {
         'Content-Type':'application/json'
       },
       body: JSON.stringify({ user: {...this.state} })
     }).then(res => res.json())
-    .then(userObj => {
-      if(userObj){
-        // localStorage.setItem('token',tokenObj.token)
-        console.log(userObj)
-        this.props.handleLogin(userObj.data.attributes)
-        this.props.history.push('/movies')
+    .then(tokenObj => {
+      if(tokenObj){
+        localStorage.setItem('token',tokenObj.token)
+        console.log(tokenObj)
+        this.props.handleLogin()
+        this.props.history.push('/items')
       }else{
         alert('Login failed..')
       }
