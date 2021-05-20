@@ -4,10 +4,10 @@ const ItemCard = (props) => {
   return (
     <Card raised onClick={(e) => props.view(e, props.movie)} className="card-size" style={{ width: "325px" }}>
       <Card.Content>
-        <Card.Header>{props.movie.attributes.title}</Card.Header>
-        <Image src={props.movie.attributes.image} className="centered card-image" />
+        <Card.Header>{props.item.name}</Card.Header>
+        <Image src={props.item.image} className="centered card-image" />
         <Card.Description>
-          {props.movie.attributes.overview}
+          ${props.item.price}
         </Card.Description>{" "}
       </Card.Content>
     </Card>

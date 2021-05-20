@@ -7,6 +7,7 @@ import Login from "./Components/Login";
 import Nav from "./Components/Nav";
 import Signup from "./Components/Signup";
 import MyReviews from "./Containers/MyCart";
+import store from "./store"
 
 import { connect } from "react-redux";
 
@@ -24,14 +25,30 @@ class App extends Component {
     logged_in: false
   };
 
-  componentDidMount() {
-    fetch(itemsAPI)
-      .then((res) => res.json())
-      .then((items) => console.log(items));  //this.dispatch({ type: "GET_ITEMS", items })
-  }
+  // componentDidMount() {
+  //   fetch(itemsAPI, {
+  //     method: "GET",
+  //     headers: {
+  //       'Content-Type':'application/json',
+  //       Authorization: `Bearer ${localStorage.getItem("token")}`,
+  //     },
+  //   })
+  //     .then((res) => res.json())
+  //     .then((items) => console.log(items));  //this.props.dispatch({ type: "GET_ITEMS", items })
+  // }
 
 
   handleLogin = () => {
+    console.log(store)
+    fetch(itemsAPI, {
+      method: "GET",
+      headers: {
+        'Content-Type':'application/json',
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((items) => this.props.dispatch({ type: "GET_ITEMS", items }));  //this.props.dispatch({ type: "GET_ITEMS", items })
     this.setState({ logged_in: true });
   };
 
@@ -51,7 +68,7 @@ class App extends Component {
                 <ItemsContainer
                   addNewReview={this.addNewReview}
                   user={this.state.user}
-                  movies={this.state.movies}
+                  items={this.props.items}
                   movieView={this.state.view}
                   view={this.viewMovie}
                   movie={this.state.currentMovie}

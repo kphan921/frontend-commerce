@@ -16,7 +16,7 @@ class MyCart extends React.Component {
 
     return (
       <div class="ui bulleted list">
-        <h2>My Reviews</h2>
+        <h2>My Cart</h2>
         {/* {!this.props.viewEdit ? this.props.reviews.map((review) => (
           <Review
             key={review.id}

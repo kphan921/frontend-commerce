@@ -8,7 +8,7 @@ const Nav = ({ logged_in, history }) => {
       <div className={'nav-bar-image'} >
         <Header as='h2' icon textAlign='center'>
 
-          <Header.Content>Kai-Mart</Header.Content>
+          <Header.Content>Apex</Header.Content>
         </Header>
       </div>
 
