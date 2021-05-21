@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Form, Button, Segment } from "semantic-ui-react";
+import "semantic-ui-css/semantic.min.css";
 import { withRouter } from "react-router";
 // import { connect } from "react-redux";
 
@@ -24,9 +25,8 @@ class Login extends Component {
       body: JSON.stringify({ user: {...this.state} })
     }).then(res => res.json())
     .then(tokenObj => {
-      if(tokenObj){
-        localStorage.setItem('token',tokenObj.token)
-        console.log(tokenObj)
+      if(tokenObj.token){                               // check if token is valid
+        localStorage.setItem('token',tokenObj.token)     // save token to localStorage
         this.props.handleLogin()
         this.props.history.push('/items')
       }else{

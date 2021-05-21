@@ -4,10 +4,10 @@ import "semantic-ui-css/semantic.min.css";
 
 import ItemsContainer from "./Containers/ItemsContainer";
 import Login from "./Components/Login";
+import ItemDetails from "./Components/ItemDetails";
 import Nav from "./Components/Nav";
 import Signup from "./Components/Signup";
-import MyReviews from "./Containers/MyCart";
-import store from "./store"
+import MyCart from "./Containers/MyCart";
 
 import { connect } from "react-redux";
 
@@ -19,10 +19,11 @@ import {
 } from "react-router-dom";
 
 const itemsAPI = "http://localhost:3000/items";
+const ordersAPI = "http://localhost:3000/orders";
 
 class App extends Component {
   state = {
-    logged_in: false
+    logged_in: false,
   };
 
   // componentDidMount() {
@@ -37,73 +38,94 @@ class App extends Component {
   //     .then((items) => console.log(items));  //this.props.dispatch({ type: "GET_ITEMS", items })
   // }
 
-
   handleLogin = () => {
-    console.log(store)
     fetch(itemsAPI, {
       method: "GET",
       headers: {
-        'Content-Type':'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     })
       .then((res) => res.json())
-      .then((items) => this.props.dispatch({ type: "GET_ITEMS", items }));  //this.props.dispatch({ type: "GET_ITEMS", items })
+      .then((items) => this.props.dispatch({ type: "GET_ITEMS", items }));
+
+    fetch(ordersAPI, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((orders) => this.props.dispatch({ type: "GET_ORDERS", orders }));
+
     this.setState({ logged_in: true });
   };
 
+  // getOrders = () => {
+  //   fetch(ordersAPI, {
+  //     method: "GET",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Authorization: `Bearer ${localStorage.getItem("token")}`,
+  //     },
+  //   })
+  //     .then((res) => res.json())
+  //     .then((orders) => this.props.dispatch({ type: "GET_ORDERS", orders })); //this.props.dispatch({ type: "GET_ORDERS", orders })
+  // };
 
-
+  addToCart = (item) => {
+    fetch(ordersAPI, {
+      //fetch POST to orders
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      body: JSON.stringify({ item_id: item.id }),
+    })
+      .then((res) => res.json())
+      .then((orders) => console.log(orders));
+  };
 
   render() {
+    
     return (
       <div className="App">
         <Router>
-          <Nav logged_in={this.state.logged_in} />
+          <Nav logged_in={this.state.logged_in} orders={this.props.orders} />
           <Switch>
             <Route
               exact
               path="/items"
               component={() => (
                 <ItemsContainer
-                  addNewReview={this.addNewReview}
-                  user={this.state.user}
                   items={this.props.items}
-                  movieView={this.state.view}
-                  view={this.viewMovie}
-                  movie={this.state.currentMovie}
-                  goBack={this.goBack}
-                  newReview={this.state.newReview}
-                  addReview={this.addReview}
-                  cancelReview={this.cancelReview}
                   logged_in={this.state.logged_in}
                 />
               )}
             />
 
-            {/* <Route>
-              exact path="/movies/:id" 
+            <Route
+              exact
+              path="/items/:id"
               render={(routerProps) => {
-                let movie = this.state.movies.find(
-                  (movie) => Number(routerProps.match.params.id) === movie.id
-                );
-                return <MovieSpecs />;
+                if (this.props.items.length !== 0) {
+                  let item = this.props.items.find(
+                    (item) => Number(routerProps.match.params.id) === item.id
+                  );
+                  return <ItemDetails item={item} addToCart={this.addToCart} />;
+                } else {
+                  return <Redirect to="/items" />;
+                }
               }}
-            </Route> */}
+            />
 
             <Route
               path="/mycart"
               component={() => {
                 return this.state.logged_in ? (
-                  <MyReviews
-                    reviews={this.state.reviews}
-                    handleEditForm={this.handleEditForm}
-                    handleDelete={this.handleDelete}
-                    viewEdit={this.state.viewEdit}
-                    cancelEditReview={this.cancelEditReview}
-                    handleEdit={this.handleEdit}
-                    review={this.state.currentReview}
-                  />
+                  <MyCart handleDelete={this.handleDelete} />
                 ) : (
                   <Redirect to="/" />
                 );
@@ -137,12 +159,10 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    ...state
-  }
-}
-
-
+    ...state,
+  };
+};
 
 export default connect(mapStateToProps)(App);

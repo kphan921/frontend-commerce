@@ -1,16 +1,23 @@
-import { Card, Image } from "semantic-ui-react";
+import { Link } from "react-router-dom";
+import "semantic-ui-css/semantic.min.css";
 
 const ItemCard = (props) => {
   return (
-    <Card raised onClick={(e) => props.view(e, props.movie)} className="card-size" style={{ width: "325px" }}>
-      <Card.Content>
-        <Card.Header>{props.item.name}</Card.Header>
-        <Image src={props.item.image} className="centered card-image" />
-        <Card.Description>
-          ${props.item.price}
-        </Card.Description>{" "}
-      </Card.Content>
-    </Card>
+    <div>
+      <div>
+        <header>{props.item.name}</header>
+        <img src={props.item.image} alt="item-img-card" />
+        <h3>Price: ${props.item.price}</h3>
+        <div>
+          <Link
+            to={`/items/${props.item.id}`}
+            style={{ color: "blue", fontWeight: "bold" }}
+          >
+            More Info
+          </Link>
+        </div>
+      </div>
+    </div>
   );
 };
 

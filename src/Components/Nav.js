@@ -1,8 +1,8 @@
 import { Header, Menu } from 'semantic-ui-react';
 import { withRouter } from 'react-router';
 
-const Nav = ({ logged_in, history }) => {
 
+const Nav = ({ logged_in, history }) => {
   return (
     <>
       <div className={'nav-bar-image'} >
@@ -25,7 +25,7 @@ const Nav = ({ logged_in, history }) => {
           logged_in && (
             <>
             <Menu.Item name='Browse' onClick={() => history.push('/items')} />
-            <Menu.Item name='my_cart' onClick={() => history.push('/mycart')} />
+            <Menu.Item name='my_cart' onClick={() => history.push('/mycart')}/>
             <Menu.Item onClick={() => history.push('/logout')} name='logout' />
             </>
           )
@@ -34,5 +34,12 @@ const Nav = ({ logged_in, history }) => {
     </>
   )
 }
+
+// const mapStateToProps = (state) => {
+//   return {
+//     ...state,
+//   };
+// };
+
 
 export default withRouter(Nav);

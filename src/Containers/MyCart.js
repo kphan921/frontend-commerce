@@ -1,12 +1,11 @@
 import React from "react";
-// import Review from "../Components/Review.js";
 import "semantic-ui-css/semantic.min.css";
-// import EditReviewForm from "../Components/EditReviewForm";
+import { connect } from "react-redux";
+import ItemCard from "../Components/ItemCard";
 
 class MyCart extends React.Component {
   render() {
-    
-    if (this.props.items) {
+    if (!this.props.orders) {
       return (
         <div>
           <h5>Cart is empty.</h5>
@@ -15,21 +14,21 @@ class MyCart extends React.Component {
     }
 
     return (
-      <div class="ui bulleted list">
+      <div className="ui bulleted list">
         <h2>My Cart</h2>
-        {/* {!this.props.viewEdit ? this.props.reviews.map((review) => (
-          <Review
-            key={review.id}
-            review={review}
-            handleEditForm={this.props.handleEditForm}
-            handleDelete={this.props.handleDelete}
-          />
-        ))
-        :
-        <EditReviewForm review={this.props.review} key={this.props.review.id} cancelEditReview={this.props.cancelEditReview} handleEdit={this.props.handleEdit} />} */}
+        {this.props.orders.map((order, idx) => (
+          // <div key={order.id}>{order.name}</div>
+          <ItemCard key={idx} item={order} />
+        ))}
       </div>
     );
   }
 }
 
-export default MyCart;
+const mapStateToProps = (state) => {
+  return {
+    ...state,
+  };
+};
+
+export default connect(mapStateToProps)(MyCart);

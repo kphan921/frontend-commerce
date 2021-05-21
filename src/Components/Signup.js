@@ -1,5 +1,6 @@
 import React from 'react';
 import { Form, Button, Segment } from 'semantic-ui-react';
+import "semantic-ui-css/semantic.min.css";
 
 import { withRouter } from 'react-router';
 
@@ -27,11 +28,10 @@ class Signup extends React.Component {
       },
       body: JSON.stringify({ user: {...this.state} })
     }).then(res => res.json())
-    .then(userObj => {
-      if(userObj.id){
-        // localStorage.setItem('token',tokenObj.token)
+    .then(tokenObj => {
+      if(tokenObj.token){                                    // check of token is valid
         alert('You are signed up. Please Login...')
-        this.props.history.push('/')
+        this.props.history.push('/')                         // direct new user to login
       }else{
         alert('Signup failed..')
       }

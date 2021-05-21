@@ -11,6 +11,11 @@ const itemsReducer = (state = initialState, action) => {
         ...state,
         items: action.items,
       };
+    case "GET_ORDERS":
+      return {
+        ...state,
+        orders: action.orders,
+      };
     case "LOG_IN":
       return {
         ...state,

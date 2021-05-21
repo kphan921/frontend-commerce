@@ -1,5 +1,6 @@
 import React from "react";
-// import ReviewForm from "./ReviewForm";
+import "semantic-ui-css/semantic.min.css";
+
 
 const ItemDetails = (props) => {
   return (
@@ -10,47 +11,20 @@ const ItemDetails = (props) => {
             <img
               alt="oh no!"
               className="ui large rectangular image bordered"
-              src={props.movie.attributes.image}
+              src={props.item.image}
             />
           </div>
           <div className="four wide column">
-            <h2>{props.movie.attributes.title}</h2>
+            <h2>{props.item.name}</h2>
             <p>
-              <strong>Genre: {props.movie.genre}</strong>
               <br />
-              <br />
-              <strong>Overview: </strong>
-              {props.movie.attributes.overview}
+              <strong>Price: </strong>
+              ${props.item.price}
               <br />
             </p>
-            <div>
-              <strong>Reviews</strong>
-              {props.movie.attributes.reviews.map((review) => (
-                <li key={review.id}>{review.comment}</li>
-              ))}
-              <br />
-              {/* {props.newReview && props.logged_in ? (
-                <ReviewForm
-                addNewReview={props.addNewReview}
-                user={props.user}
-                  movie={props.movie}
-                  // handleSubmit={props.handleSubmit}
-                  cancelReview={props.cancelReview}
-                />
-              ) : null} */}
-              {/* <br />
-              {!props.newReview ? (
-                <button
-                  className="ui button fluid"
-                  onClick={() => props.addReview()}
-                >
-                  Leave a review
-                </button>
-              ) : null} */}
-            </div>
             <br />
-            <button className="ui button fluid" onClick={() => props.goBack()}>
-              Go Back to Items
+            <button className="ui button fluid" onClick={() => props.addToCart(props.item)}>
+              Add to Cart
             </button>
           </div>
         </div>
