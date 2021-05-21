@@ -17,31 +17,33 @@ class Login extends Component {
   };
 
   handleSubmit = () => {
-    fetch('http://localhost:3000/auth',{
-      method: 'POST',
+    fetch("http://localhost:3000/auth", {
+      method: "POST",
       headers: {
-        'Content-Type':'application/json'
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify({ user: {...this.state} })
-    }).then(res => res.json())
-    .then(tokenObj => {
-      if(tokenObj.token){                               // check if token is valid
-        localStorage.setItem('token',tokenObj.token)     // save token to localStorage
-        this.props.handleLogin()
-        this.props.history.push('/items')
-      }else{
-        alert('Login failed..')
-      }
+      body: JSON.stringify({ user: { ...this.state } }),
     })
-
-  }
+      .then((res) => res.json())
+      .then((tokenObj) => {
+        if (tokenObj.token) {
+          // check if token is valid
+          localStorage.setItem("token", tokenObj.token); // save token to localStorage
+          this.props.handleLogin();
+          this.props.history.push("/items");
+        } else {
+          alert("Login failed..");
+        }
+      });
+  };
   render() {
     return (
       <Segment className="form-container">
-        <Form onSubmit={this.handleSubmit}>
+        <Form onSubmit={this.handleSubmit} autoComplete={"off"}>
           <Form.Field>
             <label>Username</label>
             <input
+              required
               name="username"
               placeholder="Username"
               onChange={this.handleInputChange}
@@ -51,6 +53,7 @@ class Login extends Component {
           <Form.Field>
             <label>Password</label>
             <input
+              required
               type="password"
               name="password"
               placeholder="Password"
@@ -61,7 +64,6 @@ class Login extends Component {
           <Button type="submit" positive>
             Login
           </Button>
-
         </Form>
       </Segment>
     );

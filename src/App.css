@@ -11,10 +11,11 @@
 
 .form-container {
   width: 100%;
+  max-width: 500px
 }
 
 body {
-  background-color:#e1e5f2;
+  background-color:#3c3c3d;
 }
 
 .content {
@@ -26,6 +27,5 @@ body {
   padding-top: 10px;
 }
 
-.form-container{
-  max-width: 500px
-}
+
+
