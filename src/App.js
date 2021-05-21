@@ -22,21 +22,11 @@ const itemsAPI = "http://localhost:3000/items";
 const ordersAPI = "http://localhost:3000/orders";
 
 class App extends Component {
-  state = {
-    logged_in: false,
-  };
-
-  // componentDidMount() {
-  //   fetch(itemsAPI, {
-  //     method: "GET",
-  //     headers: {
-  //       'Content-Type':'application/json',
-  //       Authorization: `Bearer ${localStorage.getItem("token")}`,
-  //     },
-  //   })
-  //     .then((res) => res.json())
-  //     .then((items) => console.log(items));  //this.props.dispatch({ type: "GET_ITEMS", items })
-  // }
+  componentDidMount() {
+    localStorage.getItem("token")
+      ? this.setState({ logged_in: true })
+      : this.setState({ logged_in: false });
+  }
 
   handleLogin = () => {
     fetch(itemsAPI, {
@@ -59,20 +49,8 @@ class App extends Component {
       .then((res) => res.json())
       .then((orders) => this.props.dispatch({ type: "GET_ORDERS", orders }));
 
-    this.setState({ logged_in: true });
+    this.props.dispatch({ type: "LOG_IN" });
   };
-
-  // getOrders = () => {
-  //   fetch(ordersAPI, {
-  //     method: "GET",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Authorization: `Bearer ${localStorage.getItem("token")}`,
-  //     },
-  //   })
-  //     .then((res) => res.json())
-  //     .then((orders) => this.props.dispatch({ type: "GET_ORDERS", orders })); //this.props.dispatch({ type: "GET_ORDERS", orders })
-  // };
 
   addToCart = (item) => {
     fetch(ordersAPI, {
@@ -89,22 +67,12 @@ class App extends Component {
   };
 
   render() {
-    
     return (
       <div className="App">
         <Router>
-          <Nav logged_in={this.state.logged_in} orders={this.props.orders} />
+          <Nav logged_in={this.props.logged_in} />
           <Switch>
-            <Route
-              exact
-              path="/items"
-              component={() => (
-                <ItemsContainer
-                  items={this.props.items}
-                  logged_in={this.state.logged_in}
-                />
-              )}
-            />
+            <Route exact path="/items" component={() => <ItemsContainer />} />
 
             <Route
               exact
@@ -124,7 +92,7 @@ class App extends Component {
             <Route
               path="/mycart"
               component={() => {
-                return this.state.logged_in ? (
+                return this.props.logged_in ? (
                   <MyCart handleDelete={this.handleDelete} />
                 ) : (
                   <Redirect to="/" />
@@ -135,7 +103,6 @@ class App extends Component {
             <Route
               exact
               path="/"
-              // path="/login"
               component={() => <Login handleLogin={this.handleLogin} />}
             />
 
@@ -148,7 +115,7 @@ class App extends Component {
               path="/logout"
               component={() => {
                 localStorage.clear();
-                this.setState({ logged_in: false });
+                this.props.dispatch({ type: "LOG_OUT" });
                 return <Redirect to="/" />;
               }}
             />

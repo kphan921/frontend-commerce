@@ -26,9 +26,8 @@ class Login extends Component {
     })
       .then((res) => res.json())
       .then((tokenObj) => {
-        if (tokenObj.token) {
-          // check if token is valid
-          localStorage.setItem("token", tokenObj.token); // save token to localStorage
+        if (tokenObj.token) {                                    // check if token is valid
+          localStorage.setItem("token", tokenObj.token);         // save token to localStorage
           this.props.handleLogin();
           this.props.history.push("/items");
         } else {

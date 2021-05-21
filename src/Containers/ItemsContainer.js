@@ -1,14 +1,22 @@
 import ItemCard from "../Components/ItemCard";
 import "semantic-ui-css/semantic.min.css"
+import { connect } from "react-redux";
 
-const ItemsContainer = (props) => {
+const ItemsContainer = ({ items }) => {
   return (
     <div className="centered ui four stackable cards">
-      {props.items.map((item, id) => (
+      {items.map((item, id) => (
         <ItemCard item={item} key={id} />
       ))}
     </div>
   );
 };
 
-export default ItemsContainer;
+
+const mapStateToProps = state => {
+  return {
+    items: state.items
+  }
+}
+
+export default connect(mapStateToProps)(ItemsContainer);

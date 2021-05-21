@@ -36,11 +36,7 @@ const Nav = ({ logged_in, history }) => {
   )
 }
 
-// const mapStateToProps = (state) => {
-//   return {
-//     ...state,
-//   };
-// };
+
 
 
 export default withRouter(Nav);
