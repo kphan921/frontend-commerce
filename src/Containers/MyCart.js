@@ -20,7 +20,7 @@ const MyCart = ({ orders }) => {
 
 const mapStateToProps = (state) => {
   return {
-    orders: state.orders
+    orders: state.orders,
   };
 };
 

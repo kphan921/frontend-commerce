@@ -23,9 +23,7 @@ const ordersAPI = "http://localhost:3000/orders";
 
 class App extends Component {
   componentDidMount() {
-    localStorage.getItem("token")
-      ? this.setState({ logged_in: true })
-      : this.setState({ logged_in: false });
+
   }
 
   handleLogin = () => {
@@ -48,13 +46,10 @@ class App extends Component {
     })
       .then((res) => res.json())
       .then((orders) => this.props.dispatch({ type: "GET_ORDERS", orders }));
-
-    this.props.dispatch({ type: "LOG_IN" });
   };
 
   addToCart = (item) => {
-    fetch(ordersAPI, {
-      //fetch POST to orders
+    fetch(ordersAPI, {                   //fetch POST to orders
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -70,7 +65,7 @@ class App extends Component {
     return (
       <div className="App">
         <Router>
-          <Nav logged_in={this.props.logged_in} />
+          <Nav />
           <Switch>
             <Route exact path="/items" component={() => <ItemsContainer />} />
 
@@ -92,7 +87,7 @@ class App extends Component {
             <Route
               path="/mycart"
               component={() => {
-                return this.props.logged_in ? (
+                  return localStorage.getItem('token') ? (
                   <MyCart handleDelete={this.handleDelete} />
                 ) : (
                   <Redirect to="/" />
@@ -115,7 +110,6 @@ class App extends Component {
               path="/logout"
               component={() => {
                 localStorage.clear();
-                this.props.dispatch({ type: "LOG_OUT" });
                 return <Redirect to="/" />;
               }}
             />

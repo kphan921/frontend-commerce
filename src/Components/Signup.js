@@ -17,9 +17,6 @@ class Signup extends React.Component {
   };
 
   handleSubmit = () => {
-    //
-    // Should pass in user_id once we get response from our API
-    //
     fetch("http://localhost:3000/signup", {
       method: "POST",
       headers: {
@@ -29,10 +26,9 @@ class Signup extends React.Component {
     })
       .then((res) => res.json())
       .then((tokenObj) => {
-        if (tokenObj.token) {
-          // check of token is valid
+        if (tokenObj.token) {                             // check of token is valid
           alert("You are signed up. Please Login...");
-          this.props.history.push("/"); // direct new user to login
+          this.props.history.push("/");                   // direct new user to login
         } else {
           alert("Signup failed..");
         }

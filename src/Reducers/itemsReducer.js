@@ -1,5 +1,4 @@
 const initialState = {
-  logged_in: false,
   items: [],
   order: [],
 };
@@ -16,16 +15,16 @@ const itemsReducer = (state = initialState, action) => {
         ...state,
         orders: action.orders,
       };
-    case "LOG_IN":
-      return {
-        ...state,
-        logged_in: true,
-      };
-    case "LOG_OUT":
-      return {
-        ...state,
-        logged_in: false,
-      };
+    // case "LOG_IN":
+    //   return {
+    //     ...state,
+    //     logged_in: true,
+    //   };
+    // case "LOG_OUT":
+    //   return {
+    //     ...state,
+    //     logged_in: false,
+    //   };
 
     default:
       return state;

@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Form, Button, Segment } from "semantic-ui-react";
 import "semantic-ui-css/semantic.min.css";
 import { withRouter } from "react-router";
-// import { connect } from "react-redux";
 
 class Login extends Component {
   state = {

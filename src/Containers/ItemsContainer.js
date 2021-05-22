@@ -1,5 +1,5 @@
 import ItemCard from "../Components/ItemCard";
-import "semantic-ui-css/semantic.min.css"
+import "semantic-ui-css/semantic.min.css";
 import { connect } from "react-redux";
 
 const ItemsContainer = ({ items }) => {
@@ -12,11 +12,10 @@ const ItemsContainer = ({ items }) => {
   );
 };
 
-
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    items: state.items
-  }
-}
+    items: state.items,
+  };
+};
 
 export default connect(mapStateToProps)(ItemsContainer);

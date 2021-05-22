@@ -2,7 +2,7 @@ import React from "react";
 import "semantic-ui-css/semantic.min.css";
 
 
-const ItemDetails = (props) => {
+const ItemDetails = ({ item, addToCart }) => {
   return (
     <div className="ui segment">
       <div className="ui two column centered grid">
@@ -11,19 +11,19 @@ const ItemDetails = (props) => {
             <img
               alt="oh no!"
               className="ui large rectangular image bordered"
-              src={props.item.image}
+              src={item.image}
             />
           </div>
           <div className="four wide column">
-            <h2>{props.item.name}</h2>
+            <h2>{item.name}</h2>
             <p>
               <br />
               <strong>Price: </strong>
-              ${props.item.price}
+              ${item.price}
               <br />
             </p>
             <br />
-            <button className="ui button fluid" onClick={() => props.addToCart(props.item)}>
+            <button className="ui button fluid" onClick={() => addToCart(item)}>
               Add to Cart
             </button>
           </div>
