@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./App.css";
-import "semantic-ui-css/semantic.min.css";
+// import "semantic-ui-css/semantic.min.css";
 
 import ItemsContainer from "./Containers/ItemsContainer";
 import Login from "./Components/Login";
