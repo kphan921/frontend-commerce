@@ -1,10 +1,16 @@
 const initialState = {
+  user: [],
   items: [],
-  order: [],
+  orders: [],
 };
 
 const itemsReducer = (state = initialState, action) => {
   switch (action.type) {
+    case "GET_USER":
+      return {
+        ...state,
+        user: action.user,
+      };
     case "GET_ITEMS":
       return {
         ...state,
@@ -15,16 +21,15 @@ const itemsReducer = (state = initialState, action) => {
         ...state,
         orders: action.orders,
       };
-    // case "LOG_IN":
-    //   return {
-    //     ...state,
-    //     logged_in: true,
-    //   };
-    // case "LOG_OUT":
-    //   return {
-    //     ...state,
-    //     logged_in: false,
-    //   };
+    case "ADD_ORDER":
+      return {
+        ...state, orders: [...state.orders, action.order]
+      };
+    case "DELETE_ORDER":
+      // let filteredOrders = [...state.orders.filter(order=> order.id !== action.order.id)]
+      return {
+        ...state, orders: [...state.orders.filter(order=> order.id !== action.order.id)]
+      };
 
     default:
       return state;

@@ -12,6 +12,13 @@ const Nav = ({ history }) => {
       </div>
 
       <Menu secondary>
+
+        <Menu.Item
+              className="nav-bar-content"
+              name="Browse"
+              onClick={() => history.push("/items")}
+            />
+
         {!localStorage.getItem('token') && (
           <>
             <Menu.Item
@@ -28,15 +35,16 @@ const Nav = ({ history }) => {
         )}
         {localStorage.getItem('token') && (
           <>
-            <Menu.Item
-              className="nav-bar-content"
-              name="Browse"
-              onClick={() => history.push("/items")}
-            />
+            
             <Menu.Item
               className="nav-bar-content"
               name="my_cart"
               onClick={() => history.push("/mycart")}
+            />
+            <Menu.Item
+              className="nav-bar-content"
+              name="my_account"
+              onClick={() => history.push("/profile")}
             />
             <Menu.Item
               className="nav-bar-content"

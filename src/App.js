@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./App.css";
-// import "semantic-ui-css/semantic.min.css";
+import "semantic-ui-css/semantic.min.css";
 
 import ItemsContainer from "./Containers/ItemsContainer";
 import Login from "./Components/Login";
@@ -8,6 +8,8 @@ import ItemDetails from "./Components/ItemDetails";
 import Nav from "./Components/Nav";
 import Signup from "./Components/Signup";
 import MyCart from "./Containers/MyCart";
+import Checkout from "./Components/checkout";
+import Profile from "./Components/Profile";
 
 import { connect } from "react-redux";
 
@@ -20,13 +22,12 @@ import {
 
 const itemsAPI = "http://localhost:3000/items";
 const ordersAPI = "http://localhost:3000/orders";
+const userAPI = "http://localhost:3000/users";
 
 class App extends Component {
+
+
   componentDidMount() {
-
-  }
-
-  handleLogin = () => {
     fetch(itemsAPI, {
       method: "GET",
       headers: {
@@ -36,6 +37,31 @@ class App extends Component {
     })
       .then((res) => res.json())
       .then((items) => this.props.dispatch({ type: "GET_ITEMS", items }));
+
+
+    localStorage.getItem('token') && 
+    fetch(ordersAPI, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((orders) => this.props.dispatch({ type: "GET_ORDERS", orders }));
+
+  }
+
+  handleLogin = () => {
+    fetch(userAPI, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((user) => this.props.dispatch({ type: "GET_USER", user })); 
 
     fetch(ordersAPI, {
       method: "GET",
@@ -58,7 +84,26 @@ class App extends Component {
       body: JSON.stringify({ item_id: item.id }),
     })
       .then((res) => res.json())
-      .then((orders) => console.log(orders));
+      .then((orderObj) => {
+        let order = orderObj.data.attributes.item
+        return this.props.dispatch({ type: "ADD_ORDER", order } )
+      }); 
+  };
+
+  handleDelete = (item) => {
+    console.log(item);
+    fetch("http://localhost:3000/orders/" + item.id , {                   //fetch POST to orders
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+        .then((res) => res.json())
+        .then((orderObj) => {
+          let order = orderObj.data.attributes.item
+          return this.props.dispatch({ type: "DELETE_ORDER", order } )
+        }); 
   };
 
   render() {
@@ -88,7 +133,7 @@ class App extends Component {
               path="/mycart"
               component={() => {
                   return localStorage.getItem('token') ? (
-                  <MyCart handleDelete={this.handleDelete} />
+                  <MyCart handleDelete={this.handleDelete}/>
                 ) : (
                   <Redirect to="/" />
                 );
@@ -104,6 +149,14 @@ class App extends Component {
             <Route
               path="/signup"
               component={() => <Signup handleLogin={this.handleLogin} />}
+            />
+            <Route
+              path="/checkout"
+              component={() => <Checkout />}
+            />
+            <Route
+              path="/profile"
+              component={() => <Profile />}
             />
 
             <Route

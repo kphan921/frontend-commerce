@@ -1,5 +1,6 @@
 import React from "react";
 import "semantic-ui-css/semantic.min.css";
+import { Link } from "react-router-dom";
 
 
 const ItemDetails = ({ item, addToCart }) => {
@@ -17,15 +18,22 @@ const ItemDetails = ({ item, addToCart }) => {
           <div className="four wide column">
             <h2>{item.name}</h2>
             <p>
-              <br />
+              <br/>
               <strong>Price: </strong>
               ${item.price}
               <br />
             </p>
-            <br />
+            <Link
+          to={'/items'}
+          style={{ color: "blue", fontWeight: "bold" }}
+        >
+          Back To Browse
+        </Link>
+            <br/>
+            {localStorage.getItem('token') &&
             <button className="ui button fluid" onClick={() => addToCart(item)}>
               Add to Cart
-            </button>
+            </button> }
           </div>
         </div>
       </div>
