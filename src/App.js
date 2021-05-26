@@ -10,6 +10,7 @@ import Signup from "./Components/Signup";
 import MyCart from "./Containers/MyCart";
 import Checkout from "./Components/checkout";
 import Profile from "./Components/Profile";
+import NotFound from "./Components/NotFound";
 
 import { connect } from "react-redux";
 
@@ -49,7 +50,6 @@ class App extends Component {
     })
       .then((res) => res.json())
       .then((orders) => this.props.dispatch({ type: "GET_ORDERS", orders }));
-
   }
 
   handleLogin = () => {
@@ -61,7 +61,10 @@ class App extends Component {
       },
     })
       .then((res) => res.json())
-      .then((user) => this.props.dispatch({ type: "GET_USER", user })); 
+      .then((userObj) => {
+        console.log(userObj)
+        let user = userObj.data.attributes
+        this.props.dispatch({ type: "GET_USER", user })}); 
 
     fetch(ordersAPI, {
       method: "GET",
@@ -166,6 +169,7 @@ class App extends Component {
                 return <Redirect to="/" />;
               }}
             />
+            <Route component={NotFound} />
           </Switch>
         </Router>
       </div>

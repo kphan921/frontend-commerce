@@ -2,7 +2,6 @@ import React from "react";
 import "semantic-ui-css/semantic.min.css";
 import { Link } from "react-router-dom";
 
-
 const ItemDetails = ({ item, addToCart }) => {
   return (
     <div className="ui segment">
@@ -18,22 +17,22 @@ const ItemDetails = ({ item, addToCart }) => {
           <div className="four wide column">
             <h2>{item.name}</h2>
             <p>
-              <br/>
-              <strong>Price: </strong>
-              ${item.price}
+              <br />
+              <strong>Price: </strong>${item.price}
               <br />
             </p>
-            <Link
-          to={'/items'}
-          style={{ color: "blue", fontWeight: "bold" }}
-        >
-          Back To Browse
-        </Link>
-            <br/>
-            {localStorage.getItem('token') &&
-            <button className="ui button fluid" onClick={() => addToCart(item)}>
-              Add to Cart
-            </button> }
+            <Link to={"/items"} style={{ color: "green", fontWeight: "bold" }}>
+              Back To Browse
+            </Link>
+            <br />
+            {localStorage.getItem("token") && (
+              <button
+                className="ui button fluid"
+                onClick={() => addToCart(item)}
+              >
+                Add to Cart
+              </button>
+            )}
           </div>
         </div>
       </div>

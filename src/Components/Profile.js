@@ -2,7 +2,6 @@ import React from 'react'
 import { connect } from "react-redux";
 
 const Profile = ({ user }) => {
-    console.log(user)
     return (
         <div>
             <h5>User Name: {user.username}</h5>
