@@ -1,12 +1,13 @@
 import { Header, Menu } from "semantic-ui-react";
 import "semantic-ui-css/semantic.min.css";
 import { withRouter } from "react-router";
+import { connect } from "react-redux";
 
-const Nav = ({ history }) => {
+const Nav = ({ history, orders }) => {
   return (
     <>
-      <div className="nav-bar-image">
-        <Header as="h2" icon textAlign="center">
+      <div className="App-logo">
+        <Header as="h2" icon textAlign="left">
           <Header.Content>Apex</Header.Content>
         </Header>
       </div>
@@ -40,7 +41,8 @@ const Nav = ({ history }) => {
               className="nav-bar-content"
               name="my_cart"
               onClick={() => history.push("/mycart")}
-            />
+              >My Cart ({orders.length})
+            </Menu.Item>
             <Menu.Item
               className="nav-bar-content"
               name="my_account"
@@ -58,4 +60,10 @@ const Nav = ({ history }) => {
   );
 };
 
-export default withRouter(Nav);
+const mapStateToProps = state => {
+  return {
+    orders: state.orders
+  }
+}
+
+export default connect(mapStateToProps)(withRouter(Nav));

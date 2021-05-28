@@ -37,7 +37,7 @@ class Login extends Component {
   render() {
     return (
       <Segment className="form-container">
-        <Form onSubmit={this.handleSubmit} autoComplete={"off"}>
+        <Form onSubmit={this.handleSubmit} autoComplete={"off"} className="form">
           <Form.Field>
             <label>Username</label>
             <input

@@ -13,6 +13,9 @@ const ItemDetails = ({ item, addToCart }) => {
               className="ui large rectangular image bordered"
               src={item.image}
             />
+            <Link to={"/items"} style={{ color: "green", fontWeight: "bold" }}>
+              Back To Browse
+            </Link>
           </div>
           <div className="four wide column">
             <h2>{item.name}</h2>
@@ -21,9 +24,7 @@ const ItemDetails = ({ item, addToCart }) => {
               <strong>Price: </strong>${item.price}
               <br />
             </p>
-            <Link to={"/items"} style={{ color: "green", fontWeight: "bold" }}>
-              Back To Browse
-            </Link>
+            
             <br />
             {localStorage.getItem("token") && (
               <button
@@ -33,6 +34,14 @@ const ItemDetails = ({ item, addToCart }) => {
                 Add to Cart
               </button>
             )}
+            <div>
+              <h5>Reviews:</h5>
+              <ul>
+                {item.reviews.map((review) => (
+                  <li>{review.text}</li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
       </div>

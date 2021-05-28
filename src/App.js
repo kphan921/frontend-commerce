@@ -26,8 +26,6 @@ const ordersAPI = "http://localhost:3000/orders";
 const userAPI = "http://localhost:3000/users";
 
 class App extends Component {
-
-
   componentDidMount() {
     fetch(itemsAPI, {
       method: "GET",
@@ -39,17 +37,31 @@ class App extends Component {
       .then((res) => res.json())
       .then((items) => this.props.dispatch({ type: "GET_ITEMS", items }));
 
+    localStorage.getItem("token") &&
+      fetch(userAPI, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+        .then((res) => res.json())
+        .then((userObj) => {
+          console.log(userObj);
+          let user = userObj.data.attributes;
+          this.props.dispatch({ type: "GET_USER", user });
+        });
 
-    localStorage.getItem('token') && 
-    fetch(ordersAPI, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((orders) => this.props.dispatch({ type: "GET_ORDERS", orders }));
+    localStorage.getItem("token") &&
+      fetch(ordersAPI, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+        .then((res) => res.json())
+        .then((orders) => this.props.dispatch({ type: "GET_ORDERS", orders })); //
   }
 
   handleLogin = () => {
@@ -62,9 +74,10 @@ class App extends Component {
     })
       .then((res) => res.json())
       .then((userObj) => {
-        console.log(userObj)
-        let user = userObj.data.attributes
-        this.props.dispatch({ type: "GET_USER", user })}); 
+        console.log(userObj);
+        let user = userObj.data.attributes;
+        return this.props.dispatch({ type: "GET_USER", user });
+      });
 
     fetch(ordersAPI, {
       method: "GET",
@@ -74,11 +87,12 @@ class App extends Component {
       },
     })
       .then((res) => res.json())
-      .then((orders) => this.props.dispatch({ type: "GET_ORDERS", orders }));
+      .then((orders) => console.log(orders)); //this.props.dispatch({ type: "GET_ORDERS", orders })
   };
 
   addToCart = (item) => {
-    fetch(ordersAPI, {                   //fetch POST to orders
+    fetch(ordersAPI, {
+      //fetch POST to orders
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -87,26 +101,25 @@ class App extends Component {
       body: JSON.stringify({ item_id: item.id }),
     })
       .then((res) => res.json())
-      .then((orderObj) => {
-        let order = orderObj.data.attributes.item
-        return this.props.dispatch({ type: "ADD_ORDER", order } )
-      }); 
+      .then((order) => {
+        return this.props.dispatch({ type: "ADD_ORDER", order });
+      });
   };
 
-  handleDelete = (item) => {
-    console.log(item);
-    fetch("http://localhost:3000/orders/" + item.id , {                   //fetch POST to orders
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-        .then((res) => res.json())
-        .then((orderObj) => {
-          let order = orderObj.data.attributes.item
-          return this.props.dispatch({ type: "DELETE_ORDER", order } )
-        }); 
+  handleDelete = (order) => {
+    console.log(order);
+    fetch("http://localhost:3000/orders/" + order.id, {
+      //fetch POST to orders
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((order) => {
+        return this.props.dispatch({ type: "DELETE_ORDER", order });
+      });
   };
 
   render() {
@@ -135,8 +148,8 @@ class App extends Component {
             <Route
               path="/mycart"
               component={() => {
-                  return localStorage.getItem('token') ? (
-                  <MyCart handleDelete={this.handleDelete}/>
+                return localStorage.getItem("token") ? (
+                  <MyCart handleDelete={this.handleDelete} />
                 ) : (
                   <Redirect to="/" />
                 );
@@ -153,14 +166,8 @@ class App extends Component {
               path="/signup"
               component={() => <Signup handleLogin={this.handleLogin} />}
             />
-            <Route
-              path="/checkout"
-              component={() => <Checkout />}
-            />
-            <Route
-              path="/profile"
-              component={() => <Profile />}
-            />
+            <Route path="/checkout" component={() => <Checkout />} />
+            <Route path="/profile" component={() => <Profile />} />
 
             <Route
               path="/logout"

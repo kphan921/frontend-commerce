@@ -8,6 +8,7 @@ class Signup extends React.Component {
   state = {
     username: "",
     password: "",
+    password_confirmation: "",
   };
 
   handleInputChange = (e) => {
@@ -56,6 +57,17 @@ class Signup extends React.Component {
               type="password"
               name="password"
               placeholder="Password"
+              onChange={this.handleInputChange}
+            />
+          </Form.Field>
+
+          <Form.Field>
+            <label>Confirmation Password</label>
+            <input
+              required
+              type="password"
+              name="password_confirmation"
+              placeholder="Confirm Password"
               onChange={this.handleInputChange}
             />
           </Form.Field>

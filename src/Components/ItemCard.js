@@ -9,14 +9,13 @@ const ItemCard = ({ item }) => {
         <Card.Header>{item.name}</Card.Header>
         <Image src={item.image} className="centered card-image" />
         <Card.Description>Price: ${item.price}</Card.Description>
-        
       </Card.Content>
       <Link
-          to={`/items/${item.id}`}
-          style={{ color: "blue", fontWeight: "bold" }}
-        >
-          More Info
-        </Link>
+        to={`/items/${item.id}`}
+        style={{ color: "blue", fontWeight: "bold" }}
+      >
+        More Info
+      </Link>
     </Card>
   );
 };

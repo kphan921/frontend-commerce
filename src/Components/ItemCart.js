@@ -4,21 +4,21 @@ import { Link } from "react-router-dom";
 
 
 
-const ItemCart = ({ item, handleDelete }) => {
+const ItemCart = ({ order, handleDelete }) => {
   
 
   return (
     <Card raised style={{ width: "300px", height: "min" }}>
       <Card.Content>
-        <Card.Header>{item.name}</Card.Header>
+        <Card.Header>{order.item.name}</Card.Header>
         <Image
-          src={item.image}
+          src={order.item.image}
           className="mini card-image"
           // style={{ width: "60px", height: "50px" }}
         />
-        <Card.Description>Price: ${item.price}</Card.Description>
+        <Card.Description>Price: ${order.item.price}</Card.Description>
       
-      <Link onClick={()=>handleDelete(item)}>
+      <Link onClick={()=>handleDelete(order)}>
         Remove Item
       </Link>
       </Card.Content>

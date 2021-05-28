@@ -12,17 +12,17 @@ const MyCart = ({ orders, handleDelete }) => {
     </div>
   ) : (
     <div className="ui bulleted list">
-      <h2>My Cart</h2>
+      <h2>My Cart </h2>
       {orders.map((order, idx) => (
-        <ItemCart key={idx} item={order} handleDelete={handleDelete}/>
+        <ItemCart key={idx} order={order} handleDelete={handleDelete}/>
       ))}
-      <h4>Total: ${orders.map(order=> order.price).reduce((s, n)=> s + n, 0)}</h4>
-      <Link
+      <h4>Total: ${orders.map(order=> order.item.price).reduce((s, n)=> s + n, 0)}</h4>
+      {orders.length !== 0 && <Link
           to={'/checkout'}
           style={{ color: "green", fontWeight: "bold", fontSize: "30px" }}
         >
           Checkout
-        </Link>
+        </Link>}
     </div>
   );
 };
