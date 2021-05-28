@@ -4,18 +4,17 @@ import "semantic-ui-css/semantic.min.css";
 
 const ItemCard = ({ item }) => {
   return (
-    <Card raised className="card-size" style={{ width: "300px" }}>
+    <Card
+      className="card-size"
+      style={{ width: "250px" }}
+      as={Link}
+      to={`/items/${item.id}`}
+    >
       <Card.Content>
         <Card.Header>{item.name}</Card.Header>
         <Image src={item.image} className="centered card-image" />
         <Card.Description>Price: ${item.price}</Card.Description>
       </Card.Content>
-      <Link
-        to={`/items/${item.id}`}
-        style={{ color: "blue", fontWeight: "bold" }}
-      >
-        More Info
-      </Link>
     </Card>
   );
 };
