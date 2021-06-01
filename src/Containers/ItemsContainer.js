@@ -12,7 +12,7 @@ const ItemsContainer = ({ items }) => {
         </div>
       </div>
       <br />
-      <div className="centered ui four stackable cards">
+      <div className="centered ui cards">
         {items.map((item, id) => (
           <ItemCard item={item} key={id} />
         ))}

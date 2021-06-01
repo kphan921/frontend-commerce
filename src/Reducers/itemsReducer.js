@@ -26,9 +26,20 @@ const itemsReducer = (state = initialState, action) => {
         ...state, orders: [...state.orders, action.order]
       };
     case "DELETE_ORDER":
-      // let filteredOrders = [...state.orders.filter(order=> order.id !== action.order.id)]
       return {
         ...state, orders: [...state.orders.filter(order=> order.id !== action.order.id)]
+      };
+    case "ADD_REVIEW":
+
+      return {
+        ...state, 
+        items: {
+        ...state.items, 
+        reviews: {
+        ...state.items.reviews                      //[...state.items.find(item=> item.id !== action.item.id)]
+        }
+        
+      }
       };
 
     default:

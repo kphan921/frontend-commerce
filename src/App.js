@@ -23,6 +23,7 @@ import {
 
 const itemsAPI = "http://localhost:3000/items";
 const ordersAPI = "http://localhost:3000/orders";
+const reviewsAPI = "http://localhost:3000/reviews";
 const userAPI = "http://localhost:3000/users";
 
 class App extends Component {
@@ -47,7 +48,6 @@ class App extends Component {
       })
         .then((res) => res.json())
         .then((userObj) => {
-          console.log(userObj);
           let user = userObj.data.attributes;
           this.props.dispatch({ type: "GET_USER", user });
         });
@@ -74,7 +74,6 @@ class App extends Component {
     })
       .then((res) => res.json())
       .then((userObj) => {
-        console.log(userObj);
         let user = userObj.data.attributes;
         return this.props.dispatch({ type: "GET_USER", user });
       });
@@ -87,7 +86,7 @@ class App extends Component {
       },
     })
       .then((res) => res.json())
-      .then((orders) => console.log(orders)); //this.props.dispatch({ type: "GET_ORDERS", orders })
+      .then((orders) => this.props.dispatch({ type: "GET_ORDERS", orders }));
   };
 
   addToCart = (item) => {
@@ -105,6 +104,27 @@ class App extends Component {
         return this.props.dispatch({ type: "ADD_ORDER", order });
       });
   };
+
+
+  addReview = (item) => {
+    console.log('Hi')
+    fetch(reviewsAPI, {
+      //fetch POST to orders
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      body: JSON.stringify({ text: "This is great!", item_id: item.id }),
+    })
+      .then((res) => res.json())
+      .then((review) => {
+        return console.log(review);    //this.props.dispatch({ type: "ADD_ORDER", review })
+      });
+
+
+
+  }
 
   handleDelete = (order) => {
     console.log(order);
@@ -138,7 +158,7 @@ class App extends Component {
                   let item = this.props.items.find(
                     (item) => Number(routerProps.match.params.id) === item.id
                   );
-                  return <ItemDetails item={item} addToCart={this.addToCart} />;
+                  return <ItemDetails item={item} addToCart={this.addToCart} addReview={this.addReview}/>;
                 } else {
                   return <Redirect to="/items" />;
                 }

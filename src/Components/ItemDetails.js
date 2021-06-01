@@ -2,7 +2,7 @@ import React from "react";
 import "semantic-ui-css/semantic.min.css";
 import { Link } from "react-router-dom";
 
-const ItemDetails = ({ item, addToCart }) => {
+const ItemDetails = ({ item, addToCart, addReview }) => {
   return (
     <div className="ui segment">
       <div className="ui two column centered grid">
@@ -13,6 +13,14 @@ const ItemDetails = ({ item, addToCart }) => {
               className="ui large rectangular image bordered"
               src={item.image}
             />
+            {localStorage.getItem("token") && (
+              <button
+                className="ui button fluid"
+                onClick={() => addReview(item)}
+              >
+                Leave A Review
+              </button>
+            )}
             <Link to={"/items"} style={{ color: "green", fontWeight: "bold" }}>
               Back To Browse
             </Link>
