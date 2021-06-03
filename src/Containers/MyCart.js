@@ -15,12 +15,12 @@ const MyCart = ({ orders, handleDelete }) => {
         <h2>Cart </h2>
       </header>
       <main className="cart">
-        <div className="ui bulleted list">
+        <div className="ui bulleted list" style={{marginRight: "50px"}}>
           {orders.map((order, idx) => (
             <ItemCart key={idx} order={order} handleDelete={handleDelete} />
           ))}
         </div>
-        <div className="ui right align">
+        <div>
           <h4>
             Items: $
             {orders
