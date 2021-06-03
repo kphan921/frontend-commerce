@@ -23,7 +23,7 @@ import {
 
 const itemsAPI = "http://localhost:3000/items";
 const ordersAPI = "http://localhost:3000/orders";
-const reviewsAPI = "http://localhost:3000/reviews";
+
 const userAPI = "http://localhost:3000/users";
 
 class App extends Component {
@@ -39,18 +39,18 @@ class App extends Component {
       .then((items) => this.props.dispatch({ type: "GET_ITEMS", items }));
 
     localStorage.getItem("token") &&
-      fetch(userAPI, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-        .then((res) => res.json())
-        .then((userObj) => {
-          let user = userObj.data.attributes;
-          this.props.dispatch({ type: "GET_USER", user });
-        });
+    fetch(userAPI, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((userObj) => {
+        let user = userObj.data.attributes;
+        return this.props.dispatch({ type: "GET_USER", user });
+      });
 
     localStorage.getItem("token") &&
       fetch(ordersAPI, {
@@ -61,7 +61,7 @@ class App extends Component {
         },
       })
         .then((res) => res.json())
-        .then((orders) => this.props.dispatch({ type: "GET_ORDERS", orders })); //
+        .then((orders) => this.props.dispatch({ type: "GET_ORDERS", orders })); 
   }
 
   handleLogin = () => {
@@ -106,28 +106,9 @@ class App extends Component {
   };
 
 
-  addReview = (item) => {
-    console.log('Hi')
-    fetch(reviewsAPI, {
-      //fetch POST to orders
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-      body: JSON.stringify({ text: "This is great!", item_id: item.id }),
-    })
-      .then((res) => res.json())
-      .then((review) => {
-        return console.log(review);    //this.props.dispatch({ type: "ADD_ORDER", review })
-      });
-
-
-
-  }
+  
 
   handleDelete = (order) => {
-    console.log(order);
     fetch("http://localhost:3000/orders/" + order.id, {
       //fetch POST to orders
       method: "DELETE",
@@ -158,7 +139,7 @@ class App extends Component {
                   let item = this.props.items.find(
                     (item) => Number(routerProps.match.params.id) === item.id
                   );
-                  return <ItemDetails item={item} addToCart={this.addToCart} addReview={this.addReview}/>;
+                  return <ItemDetails item={item} addToCart={this.addToCart} />;
                 } else {
                   return <Redirect to="/items" />;
                 }

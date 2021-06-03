@@ -13,8 +13,8 @@ const ItemsContainer = ({ items }) => {
       </div>
       <br />
       <div className="centered ui cards">
-        {items.map((item, id) => (
-          <ItemCard item={item} key={id} />
+        {items.map((item) => (
+          <ItemCard key={item.id} item={item}  />
         ))}
       </div>
     </div>

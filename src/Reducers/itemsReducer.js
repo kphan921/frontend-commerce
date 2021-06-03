@@ -2,6 +2,7 @@ const initialState = {
   user: [],
   items: [],
   orders: [],
+  currentItem: []
 };
 
 const itemsReducer = (state = initialState, action) => {
@@ -23,23 +24,25 @@ const itemsReducer = (state = initialState, action) => {
       };
     case "ADD_ORDER":
       return {
-        ...state, orders: [...state.orders, action.order]
+        ...state,
+        orders: [...state.orders, action.order],
       };
     case "DELETE_ORDER":
       return {
-        ...state, orders: [...state.orders.filter(order=> order.id !== action.order.id)]
+        ...state,
+        orders: [
+          ...state.orders.filter((order) => order.id !== action.order.id),
+        ],
+      };
+    case "CURRENT_ITEM":
+      return {
+        ...state,
+        currentItem: action.item,
       };
     case "ADD_REVIEW":
-
       return {
-        ...state, 
-        items: {
-        ...state.items, 
-        reviews: {
-        ...state.items.reviews                      //[...state.items.find(item=> item.id !== action.item.id)]
-        }
-        
-      }
+        ...state,
+        items: action.items,
       };
 
     default:

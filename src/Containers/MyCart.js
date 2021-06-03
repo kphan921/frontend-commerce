@@ -4,25 +4,60 @@ import "semantic-ui-css/semantic.min.css";
 import { connect } from "react-redux";
 import ItemCart from "../Components/ItemCart";
 
-
 const MyCart = ({ orders, handleDelete }) => {
   return !orders ? (
     <div>
       <h5>Cart is empty.</h5>
     </div>
   ) : (
-    <div className="ui bulleted list">
-      <h2>My Cart </h2>
-      {orders.map((order, idx) => (
-        <ItemCart key={idx} order={order} handleDelete={handleDelete}/>
-      ))}
-      <h4>Total: ${orders.map(order=> order.item.price).reduce((s, n)=> s + n, 0)}</h4>
-      {orders.length !== 0 && <Link
-          to={'/checkout'}
-          style={{ color: "green", fontWeight: "bold", fontSize: "30px" }}
-        >
-          Checkout
-        </Link>}
+    <div>
+      <header className="ui header">
+        <h2>Cart </h2>
+      </header>
+      <main className="cart">
+        <div className="ui bulleted list">
+          {orders.map((order, idx) => (
+            <ItemCart key={idx} order={order} handleDelete={handleDelete} />
+          ))}
+        </div>
+        <div className="ui right align">
+          <h4>
+            Items: $
+            {orders
+              .map((order) => order.item.price)
+              .reduce((s, n) => s + n, 0)
+              .toFixed(2)}
+          </h4>
+          <h4>
+            Tax: $
+            {(
+              orders
+                .map((order) => order.item.price)
+                .reduce((s, n) => s + n, 0) * 0.1
+            ).toFixed(2)}
+          </h4>
+          <h4>
+            Toral: $
+            {(
+              orders
+                .map((order) => order.item.price)
+                .reduce((s, n) => s + n, 0) +
+              orders
+                .map((order) => order.item.price)
+                .reduce((s, n) => s + n, 0) *
+                0.1
+            ).toFixed(2)}
+          </h4>
+          {orders.length !== 0 && (
+            <Link
+              to={"/checkout"}
+              style={{ color: "green", fontWeight: "bold", fontSize: "30px" }}
+            >
+              Checkout
+            </Link>
+          )}
+        </div>
+      </main>
     </div>
   );
 };
