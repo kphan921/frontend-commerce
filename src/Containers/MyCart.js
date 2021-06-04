@@ -16,7 +16,7 @@ const MyCart = ({ orders, handleDelete }) => {
       </header>
       <main className="cart">
         <div className="ui bulleted list" style={{marginRight: "50px"}}>
-          {orders.map((order, idx) => (
+          {orders.length === 0? <h3>Your cart is empty</h3> : orders.map((order, idx) => (
             <ItemCart key={idx} order={order} handleDelete={handleDelete} />
           ))}
         </div>

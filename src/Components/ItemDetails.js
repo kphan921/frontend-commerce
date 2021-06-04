@@ -9,6 +9,7 @@ const reviewsAPI = "http://localhost:3000/reviews";
 class ItemDetails extends Component {
   state = {
     text: "",
+    display: false,
   };
 
   handleInputChange = (e) => {
@@ -48,19 +49,44 @@ class ItemDetails extends Component {
                 src={this.props.item.image}
               />
               {localStorage.getItem("token") && (
-                <Form onSubmit={this.addReview} className="form">
-                  <Form.TextArea
-                    label="Review"
-                    required
-                    name="text"
-                    placeholder="Write your review..."
-                    onChange={this.handleInputChange}
-                  />
+                <Link
+                  onClick={() =>
+                    this.setState({ display: !this.state.display })
+                  }
+                  style={{
+                    color: "green",
+                    fontWeight: "bold",
+                    marginRight: "30px",
+                  }}
+                >
+                  Leave A Review
+                </Link>
+              )}
+              {localStorage.getItem("token") && this.state.display === true && (
+                <div className="modal">
+                  <Form onSubmit={this.addReview} className="form">
+                    <Form.TextArea
+                      label="Review"
+                      style={{ fontColor: "red" }}
+                      required
+                      name="text"
+                      placeholder="Write your review..."
+                      onChange={this.handleInputChange}
+                    />
 
-                  <Button type="submit" positive>
-                    Submit
-                  </Button>
-                </Form>
+                    <Button type="submit" positive className="ui mini button">
+                      Submit
+                    </Button>
+                    <Button
+                      onClick={() => this.setState({ display: false })}
+                      positive
+                      className="ui mini button"
+                      style={{ backgroundColor: "red" }}
+                    >
+                      Close
+                    </Button>
+                  </Form>
+                </div>
               )}
               <Link
                 to={"/items"}
@@ -76,7 +102,6 @@ class ItemDetails extends Component {
                 <strong>Price: </strong>${this.props.item.price}
                 <br />
               </p>
-
               <br />
               {localStorage.getItem("token") && (
                 <button
@@ -87,10 +112,10 @@ class ItemDetails extends Component {
                 </button>
               )}
               <div>
-                <h5>Reviews:</h5>
+                <h4>Reviews:</h4>
                 <ul>
                   {this.props.item.reviews.map((review) => (
-                    <li>{review.text}</li>
+                    <li key={review.id}>{review.text}</li>
                   ))}
                 </ul>
               </div>

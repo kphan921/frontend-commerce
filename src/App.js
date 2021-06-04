@@ -49,7 +49,7 @@ class App extends Component {
       .then((res) => res.json())
       .then((userObj) => {
         let user = userObj.data.attributes;
-        return this.props.dispatch({ type: "GET_USER", user });
+        this.props.dispatch({ type: "GET_USER", user });
       });
 
     localStorage.getItem("token") &&
