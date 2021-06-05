@@ -37,7 +37,7 @@ const MyCart = ({ orders, handleDelete }) => {
             ).toFixed(2)}
           </h4>
           <h4>
-            Toral: $
+            Total: $
             {(
               orders
                 .map((order) => order.item.price)
